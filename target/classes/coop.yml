@@ -1,0 +1,218 @@
+openapi: 3.1.0
+info:
+  title: School Transport Management API
+  description: API for managing school transport routes and students
+  version: 1.0.0
+paths:
+  /routes:
+    get:
+      summary: Get all routes
+      responses:
+        '200':
+          description: A list of routes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Route'
+    post:
+      summary: Create a new route
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Route'
+      responses:
+        '201':
+          description: Route created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+  /routes/{routeId}:
+    get:
+      summary: Get a specific route by ID
+      parameters:
+        - name: routeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The route data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+        '404':
+          description: Route not found
+    put:
+      summary: Update a route by ID
+      parameters:
+        - name: routeId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Route'
+      responses:
+        '200':
+          description: Route updated successfully
+    delete:
+      summary: Delete a route by ID
+      parameters:
+        - name: routeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Route deleted successfully
+  /routes/{routeId}/students:
+    get:
+      summary: Get all students for a specific route
+      parameters:
+        - name: routeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of students for the route
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+    post:
+      summary: Add a student to a route
+      parameters:
+        - name: routeId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '201':
+          description: Student added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+  /routes/{routeId}/students/{studentId}:
+    delete:
+      summary: Remove a student from a route
+      parameters:
+        - name: routeId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Student removed successfully
+
+components:
+  schemas:
+    Route:
+      type: object
+      properties:
+        routeId:
+          type: string
+          example: "73401AM"
+        circuit:
+          type: string
+          example: "601"
+        startTime:
+          type: string
+          format: time
+          example: "07:15"
+        endTime:
+          type: string
+          format: time
+          example: "08:15"
+        duration:
+          type: string
+          example: "60.49"
+        occupation:
+          type: string
+          example: "Lucien-Guilbault-les 2 Pavillons"
+        stops:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stop'
+        students:
+          type: array
+          items:
+            $ref: '#/components/schemas/Student'
+    Stop:
+      type: object
+      properties:
+        stopId:
+          type: string
+          example: "1"
+        location:
+          type: object
+          properties:
+            address:
+              type: string
+              example: "206, Avenue Hickson"
+            city:
+              type: string
+              example: "Saint-Lambert"
+            postalCode:
+              type: string
+              example: "J4R 2N8"
+        time:
+          type: string
+          format: time
+          example: "07:15"
+    Student:
+      type: object
+      properties:
+        studentId:
+          type: string
+          example: "2376622"
+        name:
+          type: string
+          example: "Korn, Audrey"
+        grade:
+          type: string
+          example: "Secondary"
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+              example: "206, Avenue Hickson"
+            city:
+              type: string
+              example: "Saint-Lambert"
+            postalCode:
+              type: string
+              example: "J4R 2N8"
+        contact:
+          type: string
+          example: "(514) 567-5729"

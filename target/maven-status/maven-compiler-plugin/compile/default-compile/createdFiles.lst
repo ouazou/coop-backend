@@ -1,0 +1,10 @@
+com\transport\coop\mapper\StudentMapper.class
+com\transport\coop\service\RouteService.class
+com\transport\coop\model\Route.class
+com\transport\coop\model\Stop.class
+com\transport\coop\controller\RouteController.class
+com\transport\coop\model\StopLocation.class
+com\transport\coop\model\StudentAddress.class
+com\transport\coop\api\RoutesApi.class
+com\transport\coop\mapper\RouteMapper.class
+com\transport\coop\model\Student.class
